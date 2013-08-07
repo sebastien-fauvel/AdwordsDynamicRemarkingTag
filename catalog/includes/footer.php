@@ -68,7 +68,6 @@ function tep_get_page_info(){
 	$return = array();
 	switch($scriptname){
 		case FILENAME_DEFAULT:
-		case FILENAME_PRINTER_VIEW:
 			global $category_depth;
 			if($category_depth == 'top')
 				$return[1] = 'home';
@@ -77,18 +76,22 @@ function tep_get_page_info(){
 			$return[0] = "''";
 			break;
 		case FILENAME_PRODUCT_INFO:
-			global $_GET;
+			global $_GET, $currency, $currencies;
 			if(tep_not_null($_GET['products_id'])){
 				$return[0] = "'" . $_GET['products_id'] . "'";
 				global $product_info;
-				$return[2] = sprintf("%01.2f", $product_info['products_price']);
+				$rate = $currencies->currencies[$currency]['value'];
+				$decimal_places = $currencies->currencies[$currency]['decimal_places'];
+				$return[2] = number_format(tep_add_tax($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) * $rate, $decimal_places);
 				if($new_price = tep_get_products_special_price($product_info['products_id']))
-					$return[2] = sprintf("%01.2f", $new_price);
+					$return[2] = number_format(tep_add_tax($new_price, tep_get_tax_rate($product_info['products_tax_class_id'])), $decimal_places);
+			}else{
+				$return[0] = "''";
 			}
 			$return[1] = 'product';
 			break;
 		case FILENAME_SHOPPING_CART:
-			global $cart;
+			global $cart, $currency, $currencies;
 			if($cart && is_object($cart)){
 				$products_id_list = array();
 				foreach($cart->contents as $products_id => $products_content)
@@ -99,7 +102,11 @@ function tep_get_page_info(){
 					$return[0] = $products_id_list[0];
 				else
 					$return[0] = '[' . implode(',', $products_id_list) . ']';
-				$return[2] = sprintf("%01.2f", $cart->total);
+				$rate = $currencies->currencies[$currency]['value'];
+				$decimal_places = $currencies->currencies[$currency]['decimal_places'];
+				$return[2] = number_format($cart->show_total() * $rate, $decimal_places);
+			}else{
+				$return[0] = "''";
 			}
 			$return[1] = 'cart';
 			break;
@@ -107,7 +114,7 @@ function tep_get_page_info(){
 		case FILENAME_CHECKOUT_PAYMENT:
 		case FILENAME_CHECKOUT_CONFIRMATION:
 		case FILENAME_CHECKOUT_SUCCESS:
-			global $order;
+			global $order, $currency, $currencies;
 			if($order && is_object($order)){
 				$products_id_list = array();
 				foreach($order->products as $product)
@@ -118,16 +125,30 @@ function tep_get_page_info(){
 					$return[0] = $products_id_list[0];
 				else
 					$return[0] = '[' . implode(',', $products_id_list) . ']';
-				$return[2] = sprintf("%01.2f", $order->info['total']);
+				$rate = $currencies->currencies[$currency]['value'];
+				$decimal_places = $currencies->currencies[$currency]['decimal_places'];
+				if($scriptname == FILENAME_CHECKOUT_SHIPPING || $scriptname == FILENAME_CHECKOUT_PAYMENT){ // calculate the shipping tax
+					if($scriptname == FILENAME_CHECKOUT_PAYMENT){
+						require(DIR_WS_CLASSES . 'shipping.php');
+						$shipping_modules = new shipping;
+					}
+					$module = substr($GLOBALS['shipping']['id'], 0, strpos($GLOBALS['shipping']['id'], '_'));
+					$shipping_tax = tep_get_tax_rate($GLOBALS[$module]->tax_class, $order->delivery['country']['id'], $order->delivery['zone_id']);
+					$order->info['total'] += tep_calculate_tax($order->info['shipping_cost'], $shipping_tax);
+				}
+				$return[2] = number_format($order->info['total'] * $rate, $decimal_places);
+			}else{
+				$return[0] = "''";
 			}
 			$return[1] = 'purchase';
 			break;
 		case FILENAME_ADVANCED_SEARCH_RESULT:
 			$return[0] = "''";
 			$return[1] = 'searchresults';
+			break;
 		default:
 			$return[0] = "''";
-			$return[1] = 'siteview';
+			$return[1] = 'other';
 	}	
 	return $return;
 }
