@@ -209,7 +209,7 @@ class adwords_tag_install {
 							  'QUERY' => "INSERT INTO `".TABLE_CONFIGURATION."` VALUES (NULL, 'Enable Adwords Dynamic Remarketing Tag?', 'ADWORDS_TAG_ENABLED', 'true', 'Enable Adwords Dynamic Remarketing Tag? This is a global setting and will turn them off completely.', GROUP_INSERT_ID, ".$x.", NOW(), NOW(), NULL, 'tep_cfg_select_option(array(''true'', ''false''),')");
 		$x++;
 		$this->default_config['ADWORDS_TAG_GOOGLE_CONVERSION_ID'] = array('DEFAULT' => '',
-							  'QUERY' => "INSERT INTO `".TABLE_CONFIGURATION."` VALUES (NULL, 'Google Converstion ID (Required)', 'ADWORDS_TAG_GOOGLE_CONVERSION_ID', '', 'Google Conversion ID. Must not be empty.', GROUP_INSERT_ID, ".$x.", NOW(), NOW(), NULL, '')");
+							  'QUERY' => "INSERT INTO `".TABLE_CONFIGURATION."` VALUES (NULL, 'Google Converstion ID (Required)', 'ADWORDS_TAG_GOOGLE_CONVERSION_ID', '1234567', 'Google Conversion ID. Must not be empty.', GROUP_INSERT_ID, ".$x.", NOW(), NOW(), NULL, '')");
 		$x++;
 		$this->default_config['ADWORDS_TAG_GOOGLE_CONVERSION_LABEL'] = array('DEFAULT' => '',
 							  'QUERY' => "INSERT INTO `".TABLE_CONFIGURATION."` VALUES (NULL, 'Google Converstion ID (Optional)?', 'ADWORDS_TAG_GOOGLE_CONVERSION_LABEL', '', 'Google Conversion Label. Optional, leave empty to skip.', GROUP_INSERT_ID, ".$x.", NOW(), NOW(), NULL, '')");

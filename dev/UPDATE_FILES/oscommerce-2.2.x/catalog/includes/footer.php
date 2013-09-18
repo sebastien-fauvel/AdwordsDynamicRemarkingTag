@@ -38,9 +38,11 @@
 ?>
 
 <!-- MOD: BOF - AdWords Dynamic Remarketing Tag -->
-<?php 
-require(DIR_WS_CLASSES . 'adwords_tag.php');
-$adwords_tag = new adwords_tag();
-$adwords_tag->output();
+<?php
+if (ADWORDS_TAG_ENABLED != 'false') {
+	require(DIR_WS_CLASSES . 'adwords_tag.php');
+	$adwords_tag = new adwords_tag();
+	$adwords_tag->output();
+}
 ?>
 <!-- MOD: EOF - AdWords Dynamic Remarketing Tag -->
