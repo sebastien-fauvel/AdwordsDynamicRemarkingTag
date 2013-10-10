@@ -2,7 +2,9 @@ ABOUT
 
 This a light-weight add-on for Google AdWords dynamic remarketing tag for osCommerce 2.2.x and 2.3.x
 
-Dynamic remarketing lets you reach your past site visitors with ads that show the specific products people viewed on your site. Once you've set up your dynamic remarketing campaign, you'll need to add the dynamic remarketing tag, including custom parameters, to your webpages so Google can memorize.
+Dynamic remarketing lets you reach your past site visitors with ads that show the specific products 
+people viewed on your site. Once you've set up your dynamic remarketing campaign, you'll need to add 
+the dynamic remarketing tag, including custom parameters, to your webpages so Google can memorize.
 
 More on Google Support: https://support.google.com/adwords/answer/3103357?hl=en
 
@@ -57,7 +59,7 @@ Tag Assistant (by Google): https://chrome.google.com/webstore/detail/tag-assista
 Adwords Remarketing Tag Validation: https://chrome.google.com/webstore/detail/adwords-remarketing-tag-v/iokkmdmobnhjmhbapieilipodaaeohol
 
 
-Addon link: http://addons.oscommerce.com/info/8853
+Addon link: http://addons.oscommerce.com/info/8853, http://addons.oscommerce.com/info/8907
 Support thread: http://forums.oscommerce.com/topic/393619-addon-adwords-dynamic-remarketing-tag/
 GitHub: https://github.com/furic/AdwordsDynamicRemarkingTag
 
